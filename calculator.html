@@ -1,0 +1,300 @@
+<!--Correct-->
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+
+<script src="http:ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+displayNum = "";
+    storedNum = "";
+    operation = 0;
+    queuedOperation = 0;
+    calculationFinished = false;
+    var display = document.getElementById("result");
+
+function clearDisplay() {
+    // Select the calculator's display
+    var display = document.getElementById("result");
+
+    // Clear the global variables and the display
+    displayNum = "";
+    storedNum = "";
+    operation = 0;
+    queuedOperation = 0;        
+    display.value = displayNum;
+
+}
+
+function numInput(num) {
+    // Select the calculator's display
+    var display = document.getElementById("result");
+
+    // Check if the display is empty and the number being pressed is 0
+    // This is to make sure the first number isn't 0 because then javascript thinks we are using OCTAL (Base eight)
+    if ((display.value == "") && num == "0") {
+    // If it is, do nothing
+      return;
+    }
+
+    // Check if a calculation has finished
+    // If it has replace the number in the display (the answer to the calculation with the number
+    // that was just pressed and change calculation finished back to false 
+    else if (calculationFinished == true) {
+        display.value = num;
+        calculationFinished = false;
+    }
+    // if neither of these is the case input the numbers as usual
+    else {
+      display.value += num;
+    }
+}
+
+
+function calcAdd()
+{
+	var display = document.getElementById("result");
+
+	display.value+='+';
+}
+function sub()
+{
+	var display = document.getElementById("result");
+
+	display.value+='-';
+
+}
+
+function mul()
+{
+	var display = document.getElementById("result");
+
+	display.value += "*";
+}
+function div()
+{
+	var display = document.getElementById("result");
+
+	display.value += "/";
+}
+function calculate()
+{
+	var display = document.getElementById("result");
+
+	var evalo = eval(display.value)
+	display.value = evalo;
+}
+function sroot()
+{
+	var display = document.getElementById("result");
+	var root=Math.sqrt(display.value);
+	display.value=root
+
+}
+function myFact()
+{
+	var n=document.getElementById("result").value;
+	var display = document.getElementById("result");
+
+	var result=fact(n);
+	display.value=result;
+
+}
+
+function cosFunc()
+{
+		var display = document.getElementById("result");
+		var result = Math.cos(display.value);
+		display.value=result;
+}
+function sinFunc()
+{
+		var display = document.getElementById("result");
+		var result = Math.sin(display.value);
+		display.value=result;
+}
+function tanFunc()
+{
+		var display = document.getElementById("result");
+		var result = Math.tan(display.value);
+		display.value=result;
+}
+
+
+function backspace()
+{
+			var display = document.getElementById("result");
+			var size= display.value.length;
+			display.value=display.value.substring(0,size-1);
+
+
+}
+
+function checkNum(str) {
+	for (var i = 0; i < str.length; i++) {
+		var ch = str.substring(i, i+1)
+		if (ch < "0" || ch > "9") {
+			if (ch != "/" && ch != "*" && ch != "+" && ch != "-" && ch != "."
+				&& ch != "(" && ch!= ")") {
+				alert("invalid entry!")
+				return false
+				}
+			}
+		}
+		return true
+}
+
+ 
+function fact(n)
+{
+	if (n == 0 || n == 1)
+    {
+    	return 1;
+  	}
+  	
+  else
+  {
+  return n*fact(n-1);
+   }
+}
+
+function myLog()
+{
+		var display = document.getElementById("result");
+		var result=Math.log(display.value);
+		display.value=result;
+
+
+}
+
+function expfunc()
+{
+	var display= document.getElementById("result");
+	var exp= Math.exp(display.value);
+	display.value=exp;
+}
+function powerfunc()
+{
+	calculator.display.value+='Math.pow(x,y';
+}
+function changeSign() {
+	var display = document.getElementById("result");
+	if(display.value.substring(0, 1) == "-")
+	{
+		display.value = display.value.substring(1, display.value.length);
+	}
+	else
+	{
+		display.value = "-" + display.value;
+	}
+}
+
+
+</script>
+<style type="text/css">
+
+	.btn
+	{
+		width: 13%;
+		height: 50px;
+		margin: 12px
+	}
+	#result {
+  height: 50px;
+  position: relative;
+  right: 42px;
+  width: 78%;
+  font-size: 35px;
+  color: midnightblue;
+}
+	.form-control
+	{
+		width: 70%;
+		float: right;
+		margin: 12px;
+	}
+	#clean
+	{
+		position: relative;
+		right: 13px;
+	}
+	.jumbotron
+	{
+		position: relative;
+		left: 10px;
+		border-style: solid;
+	}
+
+	
+</style>
+</head>
+<body>
+<div id="main" class="col-lg-10 col-lg-offset-1">
+	<div class="jumbotron">
+		<h1><center>Scientific Calculator</center></h1>
+<form class="calc" name="calculator">
+	<div class="row">
+		<div class="col-lg-12">
+			<input class="btn btn-danger" type="button" id="clean" value="AC" onclick="clearDisplay()" >
+			<input type="text" class="form-control" name="display" id="result">
+		</div>
+	</div>
+	<div class="row">
+		<input class="btn btn-warning" type="button" value="+/-" onclick="changeSign()">
+		<input class="btn btn-warning" type="button" value="x!" onclick="myFact()">
+		<input class="btn btn-warning" type="button" value="(" onclick="numInput('(')">
+		<input class="btn btn-warning" type="button" value=")" onclick="numInput(')')">
+		<input class="btn btn-warning" type="button" value="%" onclick="numInput('%')">
+		<input class="btn btn-warning" type="button" value="&Sqrt;" onclick="sroot()">
+
+	</div>
+
+	<div class="row">
+		<input class="btn btn-warning" type="button" value="&pi;" onclick="numInput(3.141)">
+		<input class="btn btn-warning" type="button" value="ln" onclick="myLog()">	
+		<input class="btn btn-success" type="button" value="7" onclick="numInput('7')">
+		<input class="btn btn-success" type="button" value="8" onclick="numInput('8')">
+		<input class="btn btn-success" type="button" value="9" onclick="numInput('9')">
+		<input class="btn btn-warning" type="button" value="X" onclick="mul()">
+	</div>
+	<div class="row">
+		<input class="btn btn-warning" type="button" value="x^y" onclick="powerfunc()">
+		<input class="btn btn-warning" type="button" value="sin" onclick="sinFunc()">
+		<input class="btn btn-success" type="button" value="4" onclick="numInput('4')">
+		<input class="btn btn-success" type="button" value="5" onclick="numInput('5')">
+		<input class="btn btn-success" type="button" value="6" onclick="numInput('6')">
+		<input class="btn btn-warning" type="button" value="/" onclick="div()">
+
+	</div>
+	<div class="row">
+		<input class="btn btn-warning" type="button" value="EXP" onclick="expfunc()">
+		<input class="btn btn-warning" type="button" value="cos" onclick="cosFunc()">
+		<input class="btn btn-success" type="button" value="1" onclick="numInput('1')">
+		<input class="btn btn-success" type="button" value="2" onclick="numInput('2')">
+		<input class="btn btn-success" type="button" value="3" onclick="numInput('3')">
+		<input class="btn btn-warning" type="subtract" value="-" onclick="sub()">
+
+	</div>
+	<div class="row">
+		<input class="btn btn-danger" type="button" value="delete" onclick="backspace()">
+		<input class="btn btn-warning" type="button" value="tan" onclick="tanFunc()">
+		<input class="btn btn-success" type="button" value="0" onclick="numInput('0')">
+		<input class="btn btn-success" type="button" value="." onclick="numInput('.')">
+		<input class="btn btn-warning" type="button" value="+" onclick="calcAdd()">
+		<input class="btn btn-primary" type="button" value="=" onclick="calculate()">
+	</div>
+
+	
+	</form>
+	</div><!--jumbotron-->
+</div><!--calculator-->
+
+</body>
+</html>
+
